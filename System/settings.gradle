@@ -1,0 +1,5 @@
+rootProject.name = 'System'
+include 'Server'
+include 'Interface'
+include 'Client'
+

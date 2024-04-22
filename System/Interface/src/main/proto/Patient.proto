@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package com.hospitalSystem;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+option java_package = "com.hospitalSystem";
+option java_outer_classname = "PatientProto";
+
+// The patient service definition.
+service GrpcPatientService {
+  rpc GetAllPatients(google.protobuf.Empty) returns (Proto_Patients) {}
+  // pass id to get the patient
+  rpc GetPatient(PatientId) returns (Proto_Patient){}
+
+  rpc AddPatient(AddProto_Patient) returns (Proto_Patient) {}
+  rpc AddPatients(AddProto_Patients) returns (Proto_Patients) {}
+  // Update method for updating an existing patient
+  rpc UpdatePatient(Proto_Patient) returns (Proto_Patient){}
+  rpc UpdatePatients(Proto_Patients) returns (Proto_Patients){}
+
+  rpc DeletePatient(PatientId) returns (DeletePatientResponse){}
+  rpc DeletePatients(PatientIds) returns (DeletePatientResponse){}
+}
+
+// Message representing a patient -- by default all attributes are optional
+message Proto_Patient{
+  int64 id = 1;
+  string name = 2;
+  int32 age = 3;
+  string gender = 4;
+  string ssn = 5;
+  string address = 6;
+  string phonenum = 7;
+}
+
+// Message representing a patient -- by default all attributes are optional
+message AddProto_Patient{
+  string name = 2;
+  int32 age = 3;
+  string gender = 4;
+  string ssn = 5;
+  string address = 6;
+  string phonenum = 7;
+}
+
+//list of patients
+message Proto_Patients {
+  repeated Proto_Patient patientsInDb = 1;
+}
+
+message AddProto_Patients {
+  repeated AddProto_Patient AddProtoPatient_Requests = 1;
+}
+
+message PatientId {
+  int64 id = 1;
+}
+
+message PatientIds {
+  repeated PatientId ids = 1;
+}
+
+message DeletePatientResponse {
+  string isDelete = 1;
+}

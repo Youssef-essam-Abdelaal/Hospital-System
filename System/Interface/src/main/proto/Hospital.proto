@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package com.hospitalSystem;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";// Import Empty message
+
+option java_multiple_files = true;
+option java_package = "com.hospitalSystem";
+option java_outer_classname = "HospitalProto";
+
+// The hospital service definition.
+service GrpcHospitalService {
+  rpc GetAllHospitals(google.protobuf.Empty) returns (Proto_Hospitals) {}
+  // pass id to get the hospital
+  rpc GetHospital(HospitalId) returns (Proto_Hospital){}
+
+  rpc AddHospital(AddProto_Hospital) returns (Proto_Hospital) {}
+  rpc AddHospitals(AddProto_Hospitals) returns (Proto_Hospitals){}
+  // Update method for updating an existing hospital
+
+  rpc UpdateHospital(Proto_Hospital) returns (Proto_Hospital){}
+  rpc UpdateHospitals(Proto_Hospitals) returns (Proto_Hospitals){}
+
+  rpc DeleteHospital(HospitalId) returns (DeleteHospitalResponse){}
+  rpc DeleteHospitals(HospitalIds) returns (DeleteHospitalResponse){}
+}
+
+// Message representing a hospital -- by default all attributes are optional
+message Proto_Hospital{
+  int64 id = 1;
+  string name = 2;
+  string address = 3;
+  string specialization = 4;
+}
+
+message AddProto_Hospital{
+  string name = 1;
+  string address = 2;
+  string specialization = 3;
+}
+
+//list of hospitals
+message Proto_Hospitals {
+  repeated Proto_Hospital hospitalsInDb = 1;
+}
+
+message AddProto_Hospitals {
+  repeated AddProto_Hospital AddProtoHospital_Requests = 1;
+}
+
+message HospitalId {
+  int64 id = 1;
+}
+
+message HospitalIds {
+  repeated HospitalId ids = 1;
+}
+
+message DeleteHospitalResponse {
+  string isDelete = 1;
+}

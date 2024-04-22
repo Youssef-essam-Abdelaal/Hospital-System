@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package com.hospitalSystem;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "Patient.proto";
+import "Hospital.proto";
+
+option java_multiple_files = true;
+option java_package = "com.hospitalSystem";
+option java_outer_classname = "TreatmentProto";
+
+// The Treatment service definition.
+service GrpcTreatmentService {
+  rpc GetAllTreatments(google.protobuf.Empty) returns (Proto_Treatments) {}
+  // pass id to get the Treatment details
+  rpc GetTreatments(TreatmentId) returns (Proto_Treatment){}
+
+  rpc AddTreatment(AddProto_Treatment) returns (Proto_Treatment) {}
+  rpc AddTreatments(AddProto_Treatments) returns (Proto_Treatments) {}
+
+  // Update method for updating an existing treatment
+  rpc UpdateTreatment(Proto_Treatment) returns (Proto_Treatment){}
+  rpc UpdateTreatments(Proto_Treatments) returns (Proto_Treatments){}
+
+  rpc DeleteTreatment(TreatmentId) returns (DeleteTreatmentResponse);
+  rpc DeleteTreatments(TreatmentIds) returns (DeleteTreatmentResponse);
+  //List all hospitals of a patient
+  rpc ListHospitalsPatientRegisteredIn(PatientId) returns(Proto_Hospitals){}
+  //List all patients of a hospital
+  rpc ListPatientsOfHospital(HospitalId) returns (Proto_Patients){}
+
+}
+
+// Message representing a treatment -- by default all attributes are optional
+message Proto_Treatment{
+  int64 id = 1;//treatment id
+  int64 patientId = 2;// References the patient foreign key
+  int64 hospitalId = 3;// References the hospital foreign key
+  string treatmentDetails = 4;
+  string treatmentDate=5;
+}
+
+message AddProto_Treatment{
+  int64 patientId = 1;// References the patient foreign key
+  int64 hospitalId = 2;// References the hospital foreign key
+  string treatmentDetails = 3;
+  string treatmentDate=4;
+}
+
+//list of treatments
+message Proto_Treatments {
+  repeated Proto_Treatment treatmentsInDb = 1;
+}
+
+message AddProto_Treatments {
+  repeated AddProto_Treatment AddProtoTreatment_Requests = 1;
+}
+message TreatmentId {
+  int64 id = 1;
+}
+
+message TreatmentIds {
+  repeated TreatmentId ids = 1;
+}
+
+message DeleteTreatmentResponse {
+  string isDelete = 1;
+}
