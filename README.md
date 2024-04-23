@@ -101,3 +101,5 @@ These methods are designed to allow for flexible and efficient CRUD operations o
 * You can integrate ProtoBuf generation into your Gradle build process with the protobuf-gradle-plugin, allowing automated generation of Java classes from the proto definitions.
 
 This setup provides a modern development environment. Ensure that your development environment is configured to support these technologies. Make sure all external dependencies and plugins in Gradle build files align with the given versions.
+
+# ------please check the special request pdf in the repo-------
